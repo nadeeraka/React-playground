@@ -3,17 +3,37 @@ import React, { Component } from 'react';
 
 
 class App extends Component {
-     
+    constructor(props)
+    {
+      super(props);
+      this.state ={
+        options: ['one', 'tow', 'three']
+      }
+      this.handelReset = this.handelReset.bind(this);
+      this.handelOptions = this.handelOptions.bind(this);
+    } 
+    handelReset()
+    {
+      this.setState(()=>({options:[]}));
+
+    }
+    handelOptions()
+    {
+      let optionsArray = this.state.options;
+      let index = Math.floor(Math.random()*optionsArray.length);
+      alert(optionsArray[index])
+    }
   render() {
     const title = 'Indection App';
     const sub  = 'Get your dection fast';
-    const opArray =['one','tow','three'];
+    
     return (
       <div>
       <Header title={title} sub={sub} />
-      <Action />
+        <Action opArray={this.state.options}
+         handelOptions={this.handelOptions}/>
       <AddOption />
-      <Options opArray={opArray} />
+      <Options opArray={this.state.options} />
       </div>
     );
   }
@@ -31,14 +51,10 @@ class App extends Component {
  }
  class Action extends Component
  {
-   handelButton()
-   {
-     alert('set');
-   }
    render() {
      return (
        <div>
-         <button onClick={this.handelButton}>What shoud i do</button>
+         <button disabled={! this.props.opArray.length>0} onClick={this.props.handelOptions}>What shoud i do</button>
        </div>
      )
    }
@@ -56,7 +72,7 @@ class App extends Component {
       let value = e.target.elements.data.value.trim();
       if(value)
       {
-        alert(value);
+        handelAddOption(value)
       }
 
     }
@@ -65,7 +81,7 @@ class App extends Component {
         <div>
           <form onSubmit={this.handelAddOption}>
           <input type='text'name='data'></input>
-          <button onClick={this.handelOptions}>Submit</button>
+          <button>Add option</button>
           </form>
           <SingleOption />
         </div>
@@ -87,8 +103,8 @@ class App extends Component {
       return <div>
       <button onClick={this.handelReset}>Reset All</button>   
       Option gose hear
-          <p>{this.props.opArray.map((elamants)=> 
-            <SingleOption key={elamants} textValue={elamants} /> )}</p>
+          <li>{this.props.opArray.map((elamants)=>
+            <SingleOption key={elamants} textValue={elamants} /> )}</li>
         </div>;
     }
   }
@@ -98,7 +114,9 @@ class App extends Component {
     render() {
       return (
         <div>
-          {this.props.textValue}
+        <ul>
+          
+        </ul>
         </div>
       )
     }

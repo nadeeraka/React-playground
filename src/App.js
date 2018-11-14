@@ -11,6 +11,27 @@ class App extends Component {
     this.handelAddOption = this.handelAddOption.bind(this);
     this.handelDeleteOption = this.handelDeleteOption.bind(this);
   }
+  componentDidMount()
+  {
+    try {
+      const json = localStorage.getItem("options");
+      const options = JSON.parse(json);
+      if (options) {
+        this.setState(() => ({ options }));
+      }    
+    } catch (error) {
+      console.log('errors found',error);
+    }
+    
+  }
+  componentDidUpdate(pp,ps)
+  {
+    if(ps.options.length !== this.state.options)
+    {
+      const json = JSON.stringify(this.state.options);
+      localStorage.setItem("options",json);
+    }
+  }
   handelReset() {
     this.setState(() => ({ options: [] }));
   }
@@ -97,6 +118,9 @@ class AddOption extends Component {
     if (error) {
       this.setState(() => ({ error }));
     }
+    if (!error) {
+      e.target.elements.data.value ='';
+    }
   }
   render() {
     return (
@@ -116,6 +140,7 @@ const Options =(props)=>
 
     return (
       <div>
+      <p>{props.opArray.length === 0 &&'please Add item'}</p>
         {props.opArray.map(elamants => (
           <SingleOption key={elamants} textValue={elamants} 
          handelDeleteOption={props.handelDeleteOption}

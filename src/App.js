@@ -9,6 +9,7 @@ class App extends Component {
     this.handelReset = this.handelReset.bind(this);
     this.handelOptions = this.handelOptions.bind(this);
     this.handelAddOption = this.handelAddOption.bind(this);
+    this.handelDeleteOption = this.handelDeleteOption.bind(this);
   }
   handelReset() {
     this.setState(() => ({ options: [] }));
@@ -17,6 +18,16 @@ class App extends Component {
     let optionsArray = this.state.options;
     let index = Math.floor(Math.random() * optionsArray.length);
     alert(optionsArray[index]);
+  }
+  handelDeleteOption(value)
+  {
+    this.setState((ps)=>
+  {
+    return{options:ps.options.filter((options)=>
+      {
+        return value !== options;
+      })}
+  })
   }
   handelAddOption(value) {
     if (!value) {
@@ -29,7 +40,7 @@ class App extends Component {
     });
   }
   render() {
-    const title = "Indection App";
+    const title = "Indecition";
     const sub = "Get your dection fast";
 
     return (
@@ -41,13 +52,15 @@ class App extends Component {
         />
         <AddOption handelAddOption={this.handelAddOption} />
         <Options opArray={this.state.options}
-        handelReset={this.handelReset} />
+        handelReset={this.handelReset} 
+        handelDeleteOption={this.handelDeleteOption}
+        />
       </div>
     );
   }
 }
 
-const Header = props => {
+const Header = (props)=> {
   return (
     <div>
       <h1>{props.title}</h1>
@@ -55,6 +68,7 @@ const Header = props => {
     </div>
   );
 };
+// Header.defultProps = { title: 'Indecition' };
 const Action = props => {
   return (
     <div>
@@ -103,7 +117,9 @@ const Options =(props)=>
     return (
       <div>
         {props.opArray.map(elamants => (
-          <SingleOption key={elamants} textValue={elamants} />
+          <SingleOption key={elamants} textValue={elamants} 
+         handelDeleteOption={props.handelDeleteOption}
+          />
         ))}
         <button onClick={props.handelReset}>Reset All</button>
       </div>
@@ -114,9 +130,16 @@ const Options =(props)=>
 const SingleOption = props => {
   return (
     <div>
-      <ul>{props.textValue}</ul>
+          
+        {props.textValue} <button onClick={(e)=>
+        {
+          props.handelDeleteOption(props.textValue);
+        }}>
+        Remove</button>
+      
     </div>
   );
 };
+
 
 export default App;

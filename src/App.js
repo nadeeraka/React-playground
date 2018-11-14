@@ -7,10 +7,12 @@ class App extends Component {
     {
       super(props);
       this.state ={
-        options: ['one', 'tow', 'three']
+        options: []
       }
       this.handelReset = this.handelReset.bind(this);
       this.handelOptions = this.handelOptions.bind(this);
+      this.handelAddOption = this.handelAddOption.bind(this);
+
     } 
     handelReset()
     {
@@ -23,6 +25,20 @@ class App extends Component {
       let index = Math.floor(Math.random()*optionsArray.length);
       alert(optionsArray[index])
     }
+    handelAddOption(value)
+    {
+      if(!value)
+      {
+       return 'invalid! Enter valid value ';
+      }
+      else if(this.state.options.indexOf(value)>-1)
+      {
+        return "don't use same value";
+      }
+      this.setState((ps) => {
+        return { options: ps.options.concat(value) }
+      })
+    }
   render() {
     const title = 'Indection App';
     const sub  = 'Get your dection fast';
@@ -32,7 +48,8 @@ class App extends Component {
       <Header title={title} sub={sub} />
         <Action opArray={this.state.options}
          handelOptions={this.handelOptions}/>
-      <AddOption />
+      <AddOption handelAddOption={this.handelAddOption}
+        />
       <Options opArray={this.state.options} />
       </div>
     );
@@ -62,17 +79,22 @@ class App extends Component {
   }
   class AddOption extends Component
   {
-    handelOptions()
+    constructor(props)
     {
-      alert('set');
+      super(props);
+      this.state = {
+        error:null
+      }
+      this.handelAddOption = this.handelAddOption.bind(this);
     }
     handelAddOption(e)
     {
       e.preventDefault();
       let value = e.target.elements.data.value.trim();
-      if(value)
+      let error = this.props.handelAddOption(value);
+      if(error)
       {
-        handelAddOption(value)
+       this.setState(()=>({error}))
       }
 
     }
@@ -83,7 +105,7 @@ class App extends Component {
           <input type='text'name='data'></input>
           <button>Add option</button>
           </form>
-          <SingleOption />
+          <SingleOption error={this.state.error}/>
         </div>
       )
     }
@@ -115,8 +137,9 @@ class App extends Component {
       return (
         <div>
         <ul>
-          
+          {this.props.textValue}
         </ul>
+        {this.props.error}
         </div>
       )
     }

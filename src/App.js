@@ -1,35 +1,36 @@
 import React, { Component } from "react";
+import OptionModal from "./modal";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      options: []
+      options: [],
+      selected: false,
+      selectedValue: ''
     };
     this.handelReset = this.handelReset.bind(this);
     this.handelOptions = this.handelOptions.bind(this);
     this.handelAddOption = this.handelAddOption.bind(this);
     this.handelDeleteOption = this.handelDeleteOption.bind(this);
+    this.isSelected = this.isSelected.bind(this);
   }
-  componentDidMount()
-  {
+  componentDidMount() {
     try {
       const json = localStorage.getItem("options");
       const options = JSON.parse(json);
       if (options) {
         this.setState(() => ({ options }));
-      }    
+      }
     } catch (error) {
-      console.log('errors found',error);
+      console.log('errors found', error);
     }
-    
+
   }
-  componentDidUpdate(pp,ps)
-  {
-    if(ps.options.length !== this.state.options)
-    {
+  componentDidUpdate(pp, ps) {
+    if (ps.options.length !== this.state.options) {
       const json = JSON.stringify(this.state.options);
-      localStorage.setItem("options",json);
+      localStorage.setItem("options", json);
     }
   }
   handelReset() {
@@ -38,17 +39,18 @@ class App extends Component {
   handelOptions() {
     let optionsArray = this.state.options;
     let index = Math.floor(Math.random() * optionsArray.length);
-    alert(optionsArray[index]);
+    let value = optionsArray[index]
+    this.setState(() => ({ selected: true }))
+    this.setState(() => ({ selectedValue: value }))
   }
-  handelDeleteOption(value)
-  {
-    this.setState((ps)=>
-  {
-    return{options:ps.options.filter((options)=>
-      {
-        return value !== options;
-      })}
-  })
+  handelDeleteOption(value) {
+    this.setState((ps) => {
+      return {
+        options: ps.options.filter((options) => {
+          return value !== options;
+        })
+      }
+    })
   }
   handelAddOption(value) {
     if (!value) {
@@ -59,6 +61,10 @@ class App extends Component {
     this.setState(ps => {
       return { options: ps.options.concat(value) };
     });
+  }
+  isSelected() {
+    this.setState(() => ({ selected: false }))
+    this.setState(() => ({ selectedValue: '' }))
   }
   render() {
     const title = "Indecition";
@@ -73,15 +79,19 @@ class App extends Component {
         />
         <AddOption handelAddOption={this.handelAddOption} />
         <Options opArray={this.state.options}
-        handelReset={this.handelReset} 
-        handelDeleteOption={this.handelDeleteOption}
+          handelReset={this.handelReset}
+          handelDeleteOption={this.handelDeleteOption}
+        />
+        <OptionModal isOpen={this.state.selected}
+          value={this.state.selectedValue}
+          isSelected={this.isSelected}
         />
       </div>
     );
   }
 }
 
-const Header = (props)=> {
+const Header = (props) => {
   return (
     <div>
       <h1>{props.title}</h1>
@@ -119,7 +129,7 @@ class AddOption extends Component {
       this.setState(() => ({ error }));
     }
     if (!error) {
-      e.target.elements.data.value ='';
+      e.target.elements.data.value = '';
     }
   }
   render() {
@@ -135,33 +145,31 @@ class AddOption extends Component {
     );
   }
 }
-const Options =(props)=>
- {
+const Options = (props) => {
 
-    return (
-      <div>
-      <p>{props.opArray.length === 0 &&'please Add item'}</p>
-        {props.opArray.map(elamants => (
-          <SingleOption key={elamants} textValue={elamants} 
-         handelDeleteOption={props.handelDeleteOption}
-          />
-        ))}
-        <button onClick={props.handelReset}>Reset All</button>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <p>{props.opArray.length === 0 && 'please Add item'}</p>
+      {props.opArray.map(elamants => (
+        <SingleOption key={elamants} textValue={elamants}
+          handelDeleteOption={props.handelDeleteOption}
+        />
+      ))}
+      <button onClick={props.handelReset}>Reset All</button>
+    </div>
+  );
+}
 
 
 const SingleOption = props => {
   return (
     <div>
-          
-        {props.textValue} <button onClick={(e)=>
-        {
-          props.handelDeleteOption(props.textValue);
-        }}>
+
+      {props.textValue} <button onClick={(e) => {
+        props.handelDeleteOption(props.textValue);
+      }}>
         Remove</button>
-      
+
     </div>
   );
 };

@@ -10,7 +10,9 @@ const Options = (props) =>
                     handelDeleteOption={props.handelDeleteOption}
                 />
             ))}
-            <button onClick={props.handelReset}>Reset All</button>
+            <button onClick={props.handelReset}
+                className="button button--link"
+            >Reset All</button>
         </div>
     );
 

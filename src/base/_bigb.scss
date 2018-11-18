@@ -1,0 +1,32 @@
+.bigb
+{
+    background-color: $bb;
+    border: none;
+    border-bottom: .6rem solid darken( $bb, 10%);
+    color: whitesmoke;
+    font-size: $l-size;
+    font-weight: bold;
+    margin-bottom: $xl-size;
+    width: 100%;
+    padding: 2.4rem;
+}
+.bigb:disabled
+{
+    opacity: .5;
+}
+.button
+{
+    background-color: $bb;
+    border: none;
+    border-bottom: .3rem solid darken($bb,10%);
+    color: whitesmoke;
+    font-weight: 500;
+    font-size: $s-size;
+}
+.button--link
+{
+    background:none;
+    color: $off-white;
+    border: none;
+    padding: 0;
+}

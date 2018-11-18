@@ -26,7 +26,7 @@ class AddOption extends Component {
                 <p>{this.state.error}</p>
                 <form onSubmit={this.handelAddOption}>
                     <input type="text" name="data" />
-                    <button>Add option</button>
+                    <button className="button">Add option</button>
                 </form>
                 <SingleOption />
             </div>

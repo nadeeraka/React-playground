@@ -78,33 +78,26 @@ class App extends Component {
     const title = "Indecition";
     const sub = "Get your dection fast";
 
-    return (
-      <div>
+    return <div>
         <Header title={title} sub={sub} />
-        <Action
-          opArray={this.state.options}
-          handelOptions={this.handelOptions}
-        />
-        <AddOption handelAddOption={this.handelAddOption} />
-        <Options opArray={this.state.options}
-        handelReset={this.handelReset} 
-        handelDeleteOption={this.handelDeleteOption}
-        />
-        <OptionModal isOpen={this.state.selected}
-        value={this.state.selectedValue}
-        isSelected={this.isSelected}
-        />
-      </div>
-    );
+
+        <div className="container">
+          <Action opArray={this.state.options} handelOptions={this.handelOptions} />
+          <AddOption handelAddOption={this.handelAddOption} />
+          <Options opArray={this.state.options} handelReset={this.handelReset} handelDeleteOption={this.handelDeleteOption} />
+        </div>
+        <OptionModal isOpen={this.state.selected} value={this.state.selectedValue} isSelected={this.isSelected} />
+      </div>;
   }
 }
 
 const Header = (props)=> {
-  return (
-    <div>
-      <h1>{props.title}</h1>
-      <h2>{props.sub}</h2>
-    </div>
-  );
+  return <div className="header">
+  <div className="container">
+      <h1 className="header__title"> {props.title}</h1>
+      <h2 className="header__subtitle">{props.sub}</h2>
+
+  </div>
+          </div>;
 };
 export default App;

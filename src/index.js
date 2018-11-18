@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './base/main.scss';
 
-//import App from './playground/App';
+import App from './playground/App';
 //import Contact from './playground/bred';
 //import Test from './playground/test';
 //import VtApp from './playground/vt';
-import App from './playground/ind/App';
+//import App from './playground/ind/App';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(<App/>, document.getElementById('root'));

@@ -1,0 +1,25 @@
+.w {
+  background: $blue;
+  color: $off-white;
+  padding: $m-size;
+  display: flex;
+  justify-content: space-between;
+  h3 {
+    font-size: 1.8rem;
+  }
+}
+.w__title {
+  margin: 0;
+}
+.ww {
+  background: $dblue;
+  margin-bottom: $xl-size;
+}
+.w__m {
+  border-bottom: 1px solid lighten($blue, 10%);
+  text-align: center;
+  color: $off-white;
+  margin: 0;
+  padding: $xl-size;
+  font-size: 1.6rem;
+}
